@@ -5,6 +5,8 @@ Simple python script which attempts to import + access all published workflows.
 This tests for missing tools or other import errors that users could experience
 and might cause them to have a negative impression of your Galaxy instance.
 
+![](./screenshot.png)
+
 ## Usage
 
 ```console
