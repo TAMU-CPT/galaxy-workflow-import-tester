@@ -1,8 +1,9 @@
 #!/usr/bin/env python
+import argparse
+import re
 from xunit import XUnitReportBuilder, Timer
 import bioblend
 from bioblend import galaxy
-import argparse
 
 
 def our_workflows(gx, username):
@@ -63,10 +64,11 @@ def main(galaxy_url, username, api_key):
 
     # With workflows imported, we can now try testing all of them
     for wf in our_workflows(gx, username):
+        wf_test_name_nice = 'check_validity.' + re.sub('^[A-Za-z0-9_-]', '', wf['name'].replace(' ', '_'))
         try:
             with Timer() as t:
                 gx.workflows.export_workflow_json(wf['id'])
-            xunit.ok('galaxy', 'check_validity', time=t.interval)
+            xunit.ok('galaxy', wf_test_name_nice, time=t.interval)
         except bioblend.ConnectionError as cbe:
             message = None
             if 'Workflow cannot be exported due to missing tools.' in cbe.body:
@@ -77,7 +79,7 @@ def main(galaxy_url, username, api_key):
             wf['name'] = wf['name'].replace('imported: ', '')
             message = message.format(**wf)
 
-            xunit.failure('galaxy', 'check_validity', message, errorDetails=str(cbe), time=t.interval)
+            xunit.failure('galaxy', wf_test_name_nice, message, errorDetails=str(cbe), time=t.interval)
     return xunit
 
 
