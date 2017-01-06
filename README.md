@@ -13,3 +13,7 @@ $ python run.py $GALAXY_URL $USER_NAME $API_KEY > report.xml
 
 For your convenience as an admin, this tool produces an XUnit report that is
 compatible with Jenkins.
+
+## License
+
+GPLv3
