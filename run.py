@@ -65,7 +65,7 @@ def main(galaxy_url, username, api_key):
     # With workflows imported, we can now try testing all of them
     for wf in our_workflows(gx, username):
         wf['name'] = wf['name'].replace('imported: ', '')
-        wf_test_name_nice = 'check_validity.' + re.sub('^[A-Za-z0-9_-]', '', wf['name'].replace(' ', '_').replace('.', '-'))
+        wf_test_name_nice = 'check_validity.' + re.sub('[^A-Za-z0-9_-]', '', wf['name'].replace(' ', '_').replace('.', '-'))
         try:
             with Timer() as t:
                 gx.workflows.export_workflow_json(wf['id'])
